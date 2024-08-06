@@ -15,6 +15,9 @@ namespace CodeSmells.Game
         private IUI ui;
         private IStatistics statistics;
 
+        private bool continuePlaying = true;
+        private int numberOfGuesses;
+
         public GameController(IUI ui, IStatistics statistics, Moo moo)
         {
             this.ui = ui;
@@ -24,53 +27,57 @@ namespace CodeSmells.Game
 
         public void Run()
         {
-            bool playOn = true;
-
             string playerName = ui.GetPlayerName();
 
-            while (playOn)
+            while (continuePlaying)
             {
-                string goal = moo.MakeGoal();
-
-                Console.WriteLine("New game:\n");
-                Console.WriteLine("For practice, number is: " + goal + "\n");
-
-                int numberOfGuesses = 0;
-                string result = "";
-
-                while (result != "BBBB,")
-                {
-                   result = GetResult(goal);
-                   numberOfGuesses++;
-                }
-
-                //AddPlayerToFile(playerName, numberOfGuesses);
-                //showTopList();
-                Console.WriteLine("Correct, it took " + numberOfGuesses + " guesses\nContinue?");
-                string answer = Console.ReadLine();
-                if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
-                {
-                    playOn = false;
-                }
+                PlayGame(playerName);
             }
         }
 
-        public void StartGame()
+        private void PlayGame(string playerName)
         {
+            numberOfGuesses = 0;
+            string goal = moo.MakeGoal();
 
+            ui.DisplayStartText();
+
+            //Only for debug/practice purposes
+            Console.WriteLine("For practice, number is: " + goal + "\n");
+
+            string result = "";
+
+            while (result != "BBBB,")
+            {
+                result = GetResult(goal);
+                numberOfGuesses++;
+            }
+
+            statistics.AddPlayer(playerName, numberOfGuesses);
+            statistics.ShowTopList();
+
+            ui.DisplayFinalNumberOfGuesses(numberOfGuesses);
+            EndGame();
         }
 
-        public string GetResult(string goal)
+        private string GetResult(string goal)
         {
             string guess = ui.GetGuess();
-            Console.WriteLine(guess + "\n");
 
             string newResult = moo.CheckGuess(goal, guess);
-            Console.WriteLine(newResult + "\n");
+
+            ui.DisplayResult(newResult);
 
             return newResult;
         }
 
-
+        private void EndGame()
+        {
+            string answer = ui.AskToQuit();
+            if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
+            {
+                continuePlaying = false;
+            }
+        }
     }
 }

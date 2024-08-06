@@ -9,8 +9,6 @@ namespace CodeSmells.Statistics
 {
     class StatisticsController : IStatistics
     {
-        private List<PlayerData> results = new List<PlayerData>();
-        private StreamReader input = new StreamReader("result.txt");
 
         public void AddPlayer(string name, int numberOfGuesses)
         {
@@ -19,9 +17,12 @@ namespace CodeSmells.Statistics
             output.Close();
         }
 
-        private void LoadPlayers()
+        private List<PlayerData> LoadPlayers()
         {
+            List<PlayerData> results = new List<PlayerData>();
+            StreamReader input = new StreamReader("result.txt");
             string line;
+
             while ((line = input.ReadLine()) != null)
             {
                 string[] nameAndScore = line.Split(new string[] { "#&#" }, StringSplitOptions.None);
@@ -38,35 +39,21 @@ namespace CodeSmells.Statistics
                     results[pos].Update(guesses);
                 }
             }
+            input.Close();
+
+            return results;
         }
 
         public void ShowTopList()
         {
-            //string line;
-            //while ((line = input.ReadLine()) != null)
-            //{
-            //    string[] nameAndScore = line.Split(new string[] { "#&#" }, StringSplitOptions.None);
-            //    string name = nameAndScore[0];
-            //    int guesses = Convert.ToInt32(nameAndScore[1]);
-            //    PlayerData pd = new PlayerData(name, guesses);
-            //    int pos = results.IndexOf(pd);
-            //    if (pos < 0)
-            //    {
-            //        results.Add(pd);
-            //    }
-            //    else
-            //    {
-            //        results[pos].Update(guesses);
-            //    }
-            //}
-
+            List<PlayerData> results = LoadPlayers();
             results.Sort((p1, p2) => p1.AverageScore().CompareTo(p2.AverageScore()));
-            Console.WriteLine("Player   games average");
+
+            Console.WriteLine("Player   Games  Average");
             foreach (PlayerData p in results)
             {
                 Console.WriteLine(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.PlayerName, p.NumberOfGames, p.AverageScore()));
             }
-            input.Close();
         }
     }
 }

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace CodeSmells.Statistics
 {
-    interface IStatistics
+    internal interface IStatistics
     {
-        public void AddPlayer() { }
-        public void ShowTopList() { }
-        private void LoadPlayers() { }
+        public void AddPlayer(string name, int numberOfGuesses);
+        public void ShowTopList();
     }
 }

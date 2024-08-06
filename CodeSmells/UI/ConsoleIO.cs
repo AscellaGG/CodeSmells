@@ -8,28 +8,9 @@ namespace CodeSmells.UI
 {
     internal class ConsoleIO : IUI
     {
-        public void Exit()
+        public void DisplayStartText()
         {
-            Environment.Exit(0);
-        }
-
-        //return guess as a string for gamecontroller to check?
-        public string GetGuess()
-        {
-            string guess = Console.ReadLine();
-            return guess;
-
-            //int nGuess = 1;
-            //string bbcc = checkBC(goal, guess);
-            //Console.WriteLine(bbcc + "\n");
-            //while (bbcc != "BBBB,")
-            //{
-            //    nGuess++;
-            //    guess = Console.ReadLine();
-            //    Console.WriteLine(guess + "\n");
-            //    bbcc = checkBC(goal, guess);
-            //    Console.WriteLine(bbcc + "\n");
-
+            Console.WriteLine("New game:\n");
         }
 
         public string GetPlayerName()
@@ -38,5 +19,31 @@ namespace CodeSmells.UI
             string name = Console.ReadLine();
             return name;
         }
+
+        //return guess as a string for gamecontroller to check?
+        public string GetGuess()
+        {
+            string guess = Console.ReadLine();
+            Console.WriteLine(guess + "\n");
+            return guess;
+        }
+
+        public void DisplayResult(string result)
+        {
+            Console.WriteLine(result + "\n");
+        }
+
+        public void DisplayFinalNumberOfGuesses(int guesses)
+        {
+            Console.WriteLine("Correct, it took " + guesses + " guesses");
+        }
+
+        public string AskToQuit()
+        {
+            Console.WriteLine("Continue?");
+            string answer = Console.ReadLine();
+            return answer;
+        }
+
     }
 }
