@@ -8,39 +8,40 @@ namespace CodeSmells.Statistics
 {
     internal class PlayerData
     {
-        public string Name { get; private set; }
-        public int NGames { get; private set; }
-        int totalGuess;
+        public string PlayerName { get; private set; }
+        public int NumberOfGames { get; private set; }
+        int totalGuesses;
 
 
         public PlayerData(string name, int guesses)
         {
-            Name = name;
-            NGames = 1;
-            totalGuess = guesses;
+            PlayerName = name;
+            NumberOfGames = 1;
+            totalGuesses = guesses;
         }
 
+        //Naming?
         public void Update(int guesses)
         {
-            totalGuess += guesses;
-            NGames++;
+            totalGuesses += guesses;
+            NumberOfGames++;
         }
 
-        public double Average()
+        public double AverageScore()
         {
-            return (double)totalGuess / NGames;
+            return (double)totalGuesses / NumberOfGames;
         }
 
-
+        // ?
         public override bool Equals(object p)
         {
-            return Name.Equals(((PlayerData)p).Name);
+            return PlayerName.Equals(((PlayerData)p).PlayerName);
         }
 
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode();
+            return PlayerName.GetHashCode();
         }
     }
 }

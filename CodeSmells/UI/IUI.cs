@@ -9,7 +9,7 @@ namespace CodeSmells.UI
     internal interface IUI
     {
 
-        public void StartGame();
+        public string GetPlayerName();
 
         public void Exit();
 

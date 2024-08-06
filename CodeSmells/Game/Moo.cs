@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeSmells
+namespace CodeSmells.Game
 {
-    internal class Moo
+    class Moo
     {
         public string MakeGoal()
         {
@@ -25,6 +25,7 @@ namespace CodeSmells
             }
             return goal;
         }
+
         public string CheckGuess(string goal, string guess)
         {
             int cows = 0, bulls = 0;
@@ -48,5 +49,7 @@ namespace CodeSmells
             }
             return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
         }
+
+
     }
 }

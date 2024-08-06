@@ -7,12 +7,19 @@ using System.Xml.Linq;
 
 namespace CodeSmells.Statistics
 {
-    class StatisticsController
+    class StatisticsController : IStatistics
     {
         private List<PlayerData> results = new List<PlayerData>();
         private StreamReader input = new StreamReader("result.txt");
 
-        public void LoadPlayersFromFile()
+        public void AddPlayer(string name, int numberOfGuesses)
+        {
+            StreamWriter output = new StreamWriter("result.txt", append: true);
+            output.WriteLine(name + "#&#" + numberOfGuesses);
+            output.Close();
+        }
+
+        private void LoadPlayers()
         {
             string line;
             while ((line = input.ReadLine()) != null)
@@ -53,11 +60,11 @@ namespace CodeSmells.Statistics
             //    }
             //}
 
-            results.Sort((p1, p2) => p1.Average().CompareTo(p2.Average()));
+            results.Sort((p1, p2) => p1.AverageScore().CompareTo(p2.AverageScore()));
             Console.WriteLine("Player   games average");
             foreach (PlayerData p in results)
             {
-                Console.WriteLine(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.Name, p.NGames, p.Average()));
+                Console.WriteLine(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.PlayerName, p.NumberOfGames, p.AverageScore()));
             }
             input.Close();
         }

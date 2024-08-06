@@ -32,10 +32,11 @@ namespace CodeSmells.UI
 
         }
 
-        public void StartGame()
+        public string GetPlayerName()
         {
             Console.WriteLine("Enter your user name:\n");
             string name = Console.ReadLine();
+            return name;
         }
     }
 }
