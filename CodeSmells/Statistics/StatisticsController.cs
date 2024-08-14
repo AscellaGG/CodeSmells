@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace CodeSmells.Statistics
 {
-    class StatisticsController : IStatistics
+    public class StatisticsController : IStatistics
     {
 
         public void AddPlayer(string name, int numberOfGuesses)
