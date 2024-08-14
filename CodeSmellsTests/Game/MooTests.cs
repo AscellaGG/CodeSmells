@@ -11,12 +11,12 @@ namespace CodeSmells.Game.Tests
     [TestClass()]
     public class MooTests
     {
-        Moo moo;
+        MooLogic moo;
 
         [TestInitialize()]
         public void TestInitialize()
         {
-            moo = new Moo();    
+            moo = new MooLogic();    
         }
 
         [TestMethod()]

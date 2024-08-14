@@ -10,14 +10,14 @@ namespace CodeSmells.Statistics
     public class StatisticsController : IStatistics
     {
 
-        public void AddPlayer(string name, int numberOfGuesses)
+        public void AddPlayerToFile(string name, int numberOfGuesses)
         {
             StreamWriter output = new StreamWriter("result.txt", append: true);
             output.WriteLine(name + "#&#" + numberOfGuesses);
             output.Close();
         }
 
-        private List<PlayerData> LoadPlayers()
+        private List<PlayerData> LoadPlayersFromFile()
         {
             List<PlayerData> results = new List<PlayerData>();
             StreamReader input = new StreamReader("result.txt");
@@ -36,7 +36,7 @@ namespace CodeSmells.Statistics
                 }
                 else
                 {
-                    results[pos].Update(guesses);
+                    results[pos].UpdatePlayer(guesses);
                 }
             }
             input.Close();
@@ -46,11 +46,12 @@ namespace CodeSmells.Statistics
 
         public void ShowTopList()
         {
-            List<PlayerData> results = LoadPlayers();
-            results.Sort((p1, p2) => p1.AverageScore().CompareTo(p2.AverageScore()));
+            List<PlayerData> players = LoadPlayersFromFile();
+            players.Sort((p1, p2) => p1.AverageScore().CompareTo(p2.AverageScore()));
 
+            // TODO: Dunno about this. Seperate UI?
             Console.WriteLine("Player   Games  Average");
-            foreach (PlayerData p in results)
+            foreach (PlayerData p in players)
             {
                 Console.WriteLine(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.PlayerName, p.NumberOfGames, p.AverageScore()));
             }

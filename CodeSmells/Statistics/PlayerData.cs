@@ -20,8 +20,7 @@ namespace CodeSmells.Statistics
             totalGuesses = guesses;
         }
 
-        //Naming?
-        public void Update(int guesses)
+        public void UpdatePlayer(int guesses)
         {
             totalGuesses += guesses;
             NumberOfGames++;
@@ -32,12 +31,11 @@ namespace CodeSmells.Statistics
             return (double)totalGuesses / NumberOfGames;
         }
 
-        // ?
+
         public override bool Equals(object p)
         {
             return PlayerName.Equals(((PlayerData)p).PlayerName);
         }
-
 
         public override int GetHashCode()
         {

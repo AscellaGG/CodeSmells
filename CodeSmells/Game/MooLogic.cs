@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeSmells.Game
 {
-    public class Moo
+    public class MooLogic
     {
         public string MakeGoal()
         {

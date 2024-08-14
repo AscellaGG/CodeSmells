@@ -8,7 +8,7 @@ namespace CodeSmells.Statistics
 {
     internal interface IStatistics
     {
-        public void AddPlayer(string name, int numberOfGuesses);
+        public void AddPlayerToFile(string name, int numberOfGuesses);
         public void ShowTopList();
     }
 }

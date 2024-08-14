@@ -20,7 +20,7 @@ namespace CodeSmells.UI
             return name;
         }
 
-        //return guess as a string for gamecontroller to check?
+
         public string GetGuess()
         {
             string guess = Console.ReadLine();

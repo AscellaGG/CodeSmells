@@ -11,21 +11,21 @@ namespace CodeSmells.Game
 {
     class GameController
     {
-        private Moo moo;
+        private MooLogic moo;
         private IUI ui;
         private IStatistics statistics;
 
         private bool continuePlaying = true;
         private int numberOfGuesses;
 
-        public GameController(IUI ui, IStatistics statistics, Moo moo)
+        public GameController(IUI ui, IStatistics statistics, MooLogic moo)
         {
             this.ui = ui;
             this.statistics = statistics;
             this.moo = moo;
         }
 
-        public void Run()
+        public void Run() // TODO: Call it Initialize?
         {
             string playerName = ui.GetPlayerName();
 
@@ -42,7 +42,7 @@ namespace CodeSmells.Game
 
             ui.DisplayStartText();
 
-            //Only for debug/practice purposes
+            // Only for debug/practice purposes
             Console.WriteLine("For practice, number is: " + goal + "\n");
 
             string result = "";
@@ -53,7 +53,7 @@ namespace CodeSmells.Game
                 numberOfGuesses++;
             }
 
-            statistics.AddPlayer(playerName, numberOfGuesses);
+            statistics.AddPlayerToFile(playerName, numberOfGuesses);
             statistics.ShowTopList();
 
             ui.DisplayFinalNumberOfGuesses(numberOfGuesses);
@@ -71,7 +71,7 @@ namespace CodeSmells.Game
             return newResult;
         }
 
-        private void EndGame()
+        private void EndGame() // TODO: maybe wrap all of playgame in this and move that shit out? EndGame() seems confusing when its only asking IF you want to end the game?
         {
             string answer = ui.AskToQuit();
             if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
