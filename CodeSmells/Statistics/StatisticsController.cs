@@ -26,9 +26,9 @@ namespace CodeSmells.Statistics
             while ((line = input.ReadLine()) != null)
             {
                 string[] nameAndScore = line.Split(new string[] { "#&#" }, StringSplitOptions.None);
-                string name = nameAndScore[0];
+                string playerName = nameAndScore[0];
                 int guesses = Convert.ToInt32(nameAndScore[1]);
-                PlayerData pd = new PlayerData(name, guesses);
+                PlayerData pd = new PlayerData(playerName, guesses);
                 int pos = results.IndexOf(pd);
                 if (pos < 0)
                 {

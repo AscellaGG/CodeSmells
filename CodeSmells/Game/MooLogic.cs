@@ -26,7 +26,7 @@ namespace CodeSmells.Game
             return goal;
         }
 
-        public string CheckGuess(string goal, string guess)
+        public string GetGuessResult(string goal, string guess)
         {
             int cows = 0, bulls = 0;
             guess += "    ";     // if player entered less than 4 chars
@@ -50,6 +50,14 @@ namespace CodeSmells.Game
             return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
         }
 
+        public bool IsAnswerCorrect(string guessResult)
+        {
+            if (guessResult != "BBBB,")
+            {
+                return true;
+            }
 
+            return false;
+        }
     }
 }

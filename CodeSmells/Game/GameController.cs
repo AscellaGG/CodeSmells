@@ -16,7 +16,6 @@ namespace CodeSmells.Game
         private IStatistics statistics;
 
         private bool continuePlaying = true;
-        private int numberOfGuesses;
         private string playerName;
 
         public GameController(IUI ui, IStatistics statistics, MooLogic moo)
@@ -34,20 +33,13 @@ namespace CodeSmells.Game
             {
                 RunNewGame();
 
-                ui.DisplayFinalNumberOfGuesses(numberOfGuesses);
-
-                statistics.AddPlayerToFile(playerName, numberOfGuesses);
-
-                List<string> topList = statistics.GetTopList();
-                ui.DisplayTopList(topList);
-
                 continuePlaying = ui.GetContinuePlayingInput();
             }
         }
 
         private void RunNewGame()
         {
-            numberOfGuesses = 0;
+            int numberOfGuesses = 0;
             string goal = moo.MakeGoal();
 
             ui.DisplayText("New game:");
@@ -55,24 +47,30 @@ namespace CodeSmells.Game
             // Only for debug/practice purposes
             Console.WriteLine("For practice, number is: " + goal + "\n");
 
-            string result = "";
+            HandleGuesses(goal);
 
-            while (result != "BBBB,")
-            {
-                result = GetResult(goal);
-                numberOfGuesses++;
-            }            
+            ui.DisplayFinalNumberOfGuesses(numberOfGuesses);
+
+            statistics.AddPlayerToFile(playerName, numberOfGuesses);
+
+            List<string> topList = statistics.GetTopList();
+            ui.DisplayTopList(topList);
         }
 
-        private string GetResult(string goal)
+        private void HandleGuesses(string goal)
         {
-            string guess = ui.GetGuess();
+            bool continueGuessing = true;
 
-            string newResult = moo.CheckGuess(goal, guess);
+            while (continueGuessing)
+            {
+                string guess = ui.GetGuess();
 
-            ui.DisplayText(newResult);
+                string newResult = moo.GetGuessResult(goal, guess);
 
-            return newResult;
+                ui.DisplayText(newResult);
+
+                continueGuessing = !moo.IsAnswerCorrect(newResult);
+            }
         }
 
     }

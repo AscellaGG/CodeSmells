@@ -36,7 +36,7 @@ namespace CodeSmells.Game.Tests
         [TestMethod()]
         public void CheckGuessCorrectTest()
         {
-            string ResultOfGuess = moo.CheckGuess("1234", "1234");
+            string ResultOfGuess = moo.GetGuessResult("1234", "1234");
             bool IsCorrect = false;
 
             if(ResultOfGuess == "BBBB,")
@@ -51,7 +51,7 @@ namespace CodeSmells.Game.Tests
         [TestMethod()]
         public void CheckGuessIncorrectTest() 
         {
-            string ResultOfGuess = moo.CheckGuess("1234", "4321");
+            string ResultOfGuess = moo.GetGuessResult("1234", "4321");
             bool IsCorrect = false;
 
             if (ResultOfGuess == "BBBB,")
