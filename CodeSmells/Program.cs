@@ -22,7 +22,7 @@ namespace MooGame
             // StatisticsController statistics = new StatisticsController(); 
 
             GameController controller = new GameController(ui, statisticsController, moo);
-            controller.Run();
+            controller.InitializeGame();
         }
     }
 }

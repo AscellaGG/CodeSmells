@@ -44,17 +44,19 @@ namespace CodeSmells.Statistics
             return results;
         }
 
-        public void ShowTopList()
+        public List<string> GetTopList()
         {
             List<PlayerData> players = LoadPlayersFromFile();
             players.Sort((p1, p2) => p1.AverageScore().CompareTo(p2.AverageScore()));
 
-            // TODO: Dunno about this. Seperate UI?
-            Console.WriteLine("Player   Games  Average");
+            List<string> topList = [];
+            
             foreach (PlayerData p in players)
             {
-                Console.WriteLine(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.PlayerName, p.NumberOfGames, p.AverageScore()));
+                topList.Add(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.PlayerName, p.NumberOfGames, p.AverageScore()));
             }
+
+            return topList;
         }
     }
 }

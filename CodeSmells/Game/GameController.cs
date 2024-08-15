@@ -17,6 +17,7 @@ namespace CodeSmells.Game
 
         private bool continuePlaying = true;
         private int numberOfGuesses;
+        private string playerName;
 
         public GameController(IUI ui, IStatistics statistics, MooLogic moo)
         {
@@ -25,22 +26,31 @@ namespace CodeSmells.Game
             this.moo = moo;
         }
 
-        public void Run() // TODO: Call it Initialize?
+        public void InitializeGame()
         {
-            string playerName = ui.GetPlayerName();
+            playerName = ui.GetPlayerName();
 
             while (continuePlaying)
             {
-                PlayGame(playerName);
+                RunNewGame();
+
+                ui.DisplayFinalNumberOfGuesses(numberOfGuesses);
+
+                statistics.AddPlayerToFile(playerName, numberOfGuesses);
+
+                List<string> topList = statistics.GetTopList();
+                ui.DisplayTopList(topList);
+
+                continuePlaying = ui.GetContinuePlayingInput();
             }
         }
 
-        private void PlayGame(string playerName)
+        private void RunNewGame()
         {
             numberOfGuesses = 0;
             string goal = moo.MakeGoal();
 
-            ui.DisplayStartText();
+            ui.DisplayText("New game:");
 
             // Only for debug/practice purposes
             Console.WriteLine("For practice, number is: " + goal + "\n");
@@ -51,13 +61,7 @@ namespace CodeSmells.Game
             {
                 result = GetResult(goal);
                 numberOfGuesses++;
-            }
-
-            statistics.AddPlayerToFile(playerName, numberOfGuesses);
-            statistics.ShowTopList();
-
-            ui.DisplayFinalNumberOfGuesses(numberOfGuesses);
-            EndGame();
+            }            
         }
 
         private string GetResult(string goal)
@@ -66,18 +70,10 @@ namespace CodeSmells.Game
 
             string newResult = moo.CheckGuess(goal, guess);
 
-            ui.DisplayResult(newResult);
+            ui.DisplayText(newResult);
 
             return newResult;
         }
 
-        private void EndGame() // TODO: maybe wrap all of playgame in this and move that shit out? EndGame() seems confusing when its only asking IF you want to end the game?
-        {
-            string answer = ui.AskToQuit();
-            if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
-            {
-                continuePlaying = false;
-            }
-        }
     }
 }

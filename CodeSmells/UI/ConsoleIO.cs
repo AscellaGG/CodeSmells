@@ -8,9 +8,9 @@ namespace CodeSmells.UI
 {
     internal class ConsoleIO : IUI
     {
-        public void DisplayStartText()
+        public void DisplayText(string text)
         {
-            Console.WriteLine("New game:\n");
+            Console.WriteLine(text + "\n"); 
         }
 
         public string GetPlayerName()
@@ -28,21 +28,34 @@ namespace CodeSmells.UI
             return guess;
         }
 
-        public void DisplayResult(string result)
-        {
-            Console.WriteLine(result + "\n");
-        }
-
         public void DisplayFinalNumberOfGuesses(int guesses)
         {
             Console.WriteLine("Correct, it took " + guesses + " guesses");
         }
 
-        public string AskToQuit()
+        public void DisplayTopList(List<string> topList)
+        {
+            Console.WriteLine("Player   Games  Average");
+            foreach (string line in topList) 
+            {
+                Console.WriteLine(line);
+            }
+        }
+
+        public bool GetContinuePlayingInput()
         {
             Console.WriteLine("Continue?");
             string answer = Console.ReadLine();
-            return answer;
+
+            if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
         }
 
     }

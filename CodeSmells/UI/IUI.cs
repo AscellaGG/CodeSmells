@@ -8,17 +8,18 @@ namespace CodeSmells.UI
 {
     internal interface IUI
     {
-        public void DisplayStartText();
+        public void DisplayText(string text);
 
         public string GetPlayerName();
  
         public string GetGuess();
 
-        public void DisplayResult(string result);
-
         public void DisplayFinalNumberOfGuesses(int guesses);
+        
+        public void DisplayTopList(List<string> topList);
 
-        public string AskToQuit();
+        public bool GetContinuePlayingInput();
+
 
     }
 }
