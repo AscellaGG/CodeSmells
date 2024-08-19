@@ -28,11 +28,6 @@ namespace CodeSmells.UI
             return guess;
         }
 
-        public void DisplayFinalNumberOfGuesses(int guesses)
-        {
-            Console.WriteLine("Correct, it took " + guesses + " guesses");
-        }
-
         public void DisplayTopList(List<string> topList)
         {
             Console.WriteLine("Player   Games  Average");

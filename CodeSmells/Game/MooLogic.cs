@@ -8,10 +8,17 @@ namespace CodeSmells.Game
 {
     public class MooLogic
     {
+        private bool isGameOver = false;
+        private int numberOfGuesses = 0;
+        private string goal = "";
+
+        public bool IsGameOver() { return isGameOver; }
+
+        public int GetNumberOfGuesses() { return numberOfGuesses; }
+
         public string MakeGoal()
         {
             Random randomGenerator = new Random();
-            string goal = "";
             for (int i = 0; i < 4; i++)
             {
                 int random = randomGenerator.Next(10);
@@ -23,13 +30,19 @@ namespace CodeSmells.Game
                 }
                 goal = goal + randomDigit;
             }
+
+            // Only for debug/practice purposes
+            Console.WriteLine("For practice, number is: " + goal + "\n");
+
             return goal;
         }
 
-        public string GetGuessResult(string goal, string guess)
+        public string GetGuessResult(string guess)
         {
             int cows = 0, bulls = 0;
+
             guess += "    ";     // if player entered less than 4 chars
+
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -47,17 +60,22 @@ namespace CodeSmells.Game
                     }
                 }
             }
+
+            numberOfGuesses++;
+
             return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
         }
 
-        public bool IsAnswerCorrect(string guessResult)
+        public void CheckAnswer(string guessResult)
         {
-            if (guessResult != "BBBB,")
+            if (guessResult == "BBBB,")
             {
-                return true;
+                isGameOver = true;
+            } else
+            {
+                isGameOver = false;
             }
 
-            return false;
         }
     }
 }

@@ -44,7 +44,6 @@ namespace CodeSmells.Game.Tests
                 IsCorrect = true;
             }
 
-
             Assert.IsTrue(IsCorrect);
         }
 

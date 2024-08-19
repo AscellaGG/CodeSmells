@@ -51,9 +51,9 @@ namespace CodeSmells.Statistics
 
             List<string> topList = [];
             
-            foreach (PlayerData p in players)
+            foreach (PlayerData player in players)
             {
-                topList.Add(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.PlayerName, p.NumberOfGames, p.AverageScore()));
+                topList.Add(string.Format("{0,-9}{1,5:D}{2,9:F2}", player.playerName, player.numberOfGames, player.AverageScore()));
             }
 
             return topList;

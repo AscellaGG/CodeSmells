@@ -15,19 +15,20 @@ namespace CodeSmells.Game
         private IUI ui;
         private IStatistics statistics;
 
-        private bool continuePlaying = true;
         private string playerName;
 
-        public GameController(IUI ui, IStatistics statistics, MooLogic moo)
+        public GameController(IUI ui, IStatistics statistics)
         {
             this.ui = ui;
             this.statistics = statistics;
-            this.moo = moo;
+            moo = new MooLogic();
         }
 
-        public void InitializeGame()
+        public void RunGameSession()
         {
             playerName = ui.GetPlayerName();
+
+            bool continuePlaying = true;
 
             while (continuePlaying)
             {
@@ -39,39 +40,43 @@ namespace CodeSmells.Game
 
         private void RunNewGame()
         {
-            int numberOfGuesses = 0;
-            string goal = moo.MakeGoal();
+            HandleGameStart();
 
-            ui.DisplayText("New game:");
+            while (!moo.IsGameOver()) 
+            {
+                HandlePlayerInput();
+            }
 
-            // Only for debug/practice purposes
-            Console.WriteLine("For practice, number is: " + goal + "\n");
-
-            HandleGuesses(goal);
-
-            ui.DisplayFinalNumberOfGuesses(numberOfGuesses);
-
-            statistics.AddPlayerToFile(playerName, numberOfGuesses);
-
-            List<string> topList = statistics.GetTopList();
-            ui.DisplayTopList(topList);
+            HandleGameOver();
         }
 
-        private void HandleGuesses(string goal)
+        private void HandleGameStart()
         {
-            bool continueGuessing = true;
+            moo.MakeGoal();
 
-            while (continueGuessing)
-            {
-                string guess = ui.GetGuess();
+            ui.DisplayText("New game:");
+        }
 
-                string newResult = moo.GetGuessResult(goal, guess);
+        private void HandlePlayerInput()
+        {
+            string guess = ui.GetGuess();
 
-                ui.DisplayText(newResult);
+            string newResult = moo.GetGuessResult(guess);
 
-                continueGuessing = !moo.IsAnswerCorrect(newResult);
-            }
+            ui.DisplayText(newResult);
+
+            moo.CheckAnswer(newResult);
+        }
+
+        private void HandleGameOver()
+        {
+            ui.DisplayText("Correct, it took " + moo.GetNumberOfGuesses() + " guesses");
+
+            statistics.AddPlayerToFile(playerName, moo.GetNumberOfGuesses());
+
+            ui.DisplayTopList(statistics.GetTopList());
         }
 
     }
 }
+ 

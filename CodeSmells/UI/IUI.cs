@@ -13,8 +13,6 @@ namespace CodeSmells.UI
         public string GetPlayerName();
  
         public string GetGuess();
-
-        public void DisplayFinalNumberOfGuesses(int guesses);
         
         public void DisplayTopList(List<string> topList);
 
