@@ -16,25 +16,12 @@ namespace CodeSmells.Game
 
         public int GetNumberOfGuesses() { return numberOfGuesses; }
 
-        public string MakeGoal()
+        public void MakeGoal(IRandomGenerator randomGenerator)
         {
-            Random randomGenerator = new Random();
-            for (int i = 0; i < 4; i++)
-            {
-                int random = randomGenerator.Next(10);
-                string randomDigit = "" + random;
-                while (goal.Contains(randomDigit))
-                {
-                    random = randomGenerator.Next(10);
-                    randomDigit = "" + random;
-                }
-                goal = goal + randomDigit;
-            }
+            goal = randomGenerator.GenerateGoal();
 
             // Only for debug/practice purposes
             Console.WriteLine("For practice, number is: " + goal + "\n");
-
-            return goal;
         }
 
         public string GetGuessResult(string guess)

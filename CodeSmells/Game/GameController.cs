@@ -11,22 +11,21 @@ namespace CodeSmells.Game
 {
     class GameController
     {
-        private MooLogic moo;
-        private IUI ui;
-        private IStatistics statistics;
+        private MooLogic _moo;
+        private IUI _ui;
+        private IStatistics _statistics;
 
         private string playerName;
 
         public GameController(IUI ui, IStatistics statistics)
         {
-            this.ui = ui;
-            this.statistics = statistics;
-            moo = new MooLogic();
+            _ui = ui;
+            _statistics = statistics;
         }
 
         public void RunGameSession()
         {
-            playerName = ui.GetPlayerName();
+            playerName = _ui.GetPlayerName();
 
             bool continuePlaying = true;
 
@@ -34,15 +33,17 @@ namespace CodeSmells.Game
             {
                 RunNewGame();
 
-                continuePlaying = ui.GetContinuePlayingInput();
+                continuePlaying = _ui.GetContinuePlayingInput();
             }
         }
 
         private void RunNewGame()
         {
+            _moo = new MooLogic();
+
             HandleGameStart();
 
-            while (!moo.IsGameOver()) 
+            while (!_moo.IsGameOver()) 
             {
                 HandlePlayerInput();
             }
@@ -52,29 +53,29 @@ namespace CodeSmells.Game
 
         private void HandleGameStart()
         {
-            moo.MakeGoal();
+            _moo.MakeGoal(new RandomGenerator());
 
-            ui.DisplayText("New game:");
+            _ui.DisplayText("New game:");
         }
 
         private void HandlePlayerInput()
         {
-            string guess = ui.GetGuess();
+            string guess = _ui.GetGuess();
 
-            string newResult = moo.GetGuessResult(guess);
+            string newResult = _moo.GetGuessResult(guess);
 
-            ui.DisplayText(newResult);
+            _ui.DisplayText(newResult);
 
-            moo.CheckAnswer(newResult);
+            _moo.CheckAnswer(newResult);
         }
 
         private void HandleGameOver()
         {
-            ui.DisplayText("Correct, it took " + moo.GetNumberOfGuesses() + " guesses");
+            _ui.DisplayText("Correct, it took " + _moo.GetNumberOfGuesses() + " guesses");
 
-            statistics.AddPlayerToFile(playerName, moo.GetNumberOfGuesses());
+            _statistics.AddPlayerToFile(playerName, _moo.GetNumberOfGuesses());
 
-            ui.DisplayTopList(statistics.GetTopList());
+            _ui.DisplayTopList(_statistics.GetTopList());
         }
 
     }

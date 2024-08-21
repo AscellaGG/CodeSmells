@@ -16,28 +16,18 @@ namespace CodeSmells.Game.Tests
         [TestInitialize()]
         public void TestInitialize()
         {
-            moo = new MooLogic();    
-        }
+            MockRandomGenerator mockRandomGenerator = new MockRandomGenerator("1234");
 
-        [TestMethod()]
-        public void MakeGoalTest()
-        {
-            string goal = moo.MakeGoal();
-            int numberOfGoalDigits = 0;
+            moo = new MooLogic();   
 
-            for (int i = 0; i < goal.Length; i++)
-            {
-                numberOfGoalDigits++;
-            }
-
-            Assert.AreEqual(4,numberOfGoalDigits);
+            moo.MakeGoal(mockRandomGenerator);
         }
 
         [TestMethod()]
         public void CheckGuessCorrectTest()
         {
-            string ResultOfGuess = moo.GetGuessResult("1234", "1234");
             bool IsCorrect = false;
+            string ResultOfGuess = moo.GetGuessResult("1234");
 
             if(ResultOfGuess == "BBBB,")
             {
@@ -50,8 +40,8 @@ namespace CodeSmells.Game.Tests
         [TestMethod()]
         public void CheckGuessIncorrectTest() 
         {
-            string ResultOfGuess = moo.GetGuessResult("1234", "4321");
             bool IsCorrect = false;
+            string ResultOfGuess = moo.GetGuessResult("4321");
 
             if (ResultOfGuess == "BBBB,")
             {
@@ -59,6 +49,34 @@ namespace CodeSmells.Game.Tests
             }
 
             Assert.IsFalse(IsCorrect);
+        }
+
+        [TestMethod()]
+        public void TestNumberOfGuesses()
+        {
+            string ResultOfGuess = moo.GetGuessResult("4321");
+            ResultOfGuess = moo.GetGuessResult("2342");
+            ResultOfGuess = moo.GetGuessResult("2154");
+
+            Assert.AreEqual(3, moo.GetNumberOfGuesses());
+        }
+
+        [TestMethod()]
+        public void TestIsGameOverFalse()
+        {
+            string ResultOfGuess = moo.GetGuessResult("4321");
+            moo.CheckAnswer(ResultOfGuess);
+
+            Assert.IsFalse(moo.IsGameOver());
+        }
+
+        [TestMethod()]
+        public void TestIsGameOverTrue()
+        {
+            string ResultOfGuess = moo.GetGuessResult("1234");
+            moo.CheckAnswer(ResultOfGuess);
+
+            Assert.IsTrue(moo.IsGameOver());
         }
     }
 }

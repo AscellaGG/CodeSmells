@@ -25,10 +25,8 @@ namespace CodeSmells.Statistics
 
             while ((line = input.ReadLine()) != null)
             {
-                string[] nameAndScore = line.Split(new string[] { "#&#" }, StringSplitOptions.None);
-                string playerName = nameAndScore[0];
-                int guesses = Convert.ToInt32(nameAndScore[1]);
-                PlayerData pd = new PlayerData(playerName, guesses);
+                PlayerData pd = CreatePlayerDataFromString(line);
+
                 int pos = results.IndexOf(pd);
                 if (pos < 0)
                 {
@@ -36,13 +34,23 @@ namespace CodeSmells.Statistics
                 }
                 else
                 {
-                    results[pos].UpdatePlayer(guesses);
+                    results[pos].UpdatePlayer(pd.totalGuesses);
                 }
             }
             input.Close();
 
             return results;
         }
+
+        private PlayerData CreatePlayerDataFromString(string playerString)
+        {
+            string[] nameAndScore = playerString.Split(new string[] { "#&#" }, StringSplitOptions.None);
+            string playerName = nameAndScore[0];
+            int guesses = Convert.ToInt32(nameAndScore[1]);
+            PlayerData pd = new PlayerData(playerName, guesses);
+
+            return pd;
+        } 
 
         public List<string> GetTopList()
         {

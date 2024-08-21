@@ -24,6 +24,7 @@ namespace MooGame
             // TODO: Felhantering
             // TODO: Testing
             // TODO: Comments?
+            // TODO: add refrences for testing in documentation
 
             GameController controller = new GameController(ui, statisticsController);
             controller.RunGameSession();
