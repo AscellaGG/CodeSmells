@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CodeSmells.Game;
 
-
-namespace CodeSmells.Game
+namespace CodeSmellsTests.Game.Mocks
 {
     internal class MockRandomGenerator : IRandomGenerator
     {
@@ -13,7 +13,7 @@ namespace CodeSmells.Game
 
         public MockRandomGenerator(string fixedGoal)
         {
-            _fixedGoal = fixedGoal; 
+            _fixedGoal = fixedGoal;
         }
 
         public string GenerateGoal()
