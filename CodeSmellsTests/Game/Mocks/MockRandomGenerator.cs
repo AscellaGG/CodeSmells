@@ -16,7 +16,7 @@ namespace CodeSmellsTests.Game.Mocks
             _fixedGoal = fixedGoal;
         }
 
-        public string GenerateGoal()
+        public string GenerateGoal(int range, bool uniqueNumbers)
         {
             return _fixedGoal;
         }

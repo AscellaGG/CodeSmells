@@ -15,7 +15,7 @@ namespace CodeSmells.Game.Tests
         public void NoRepeatingNumbersTest()
         {
             RandomGenerator generator = new RandomGenerator();
-            string goal = generator.GenerateGoal();
+            string goal = generator.GenerateGoal(10, true);
             bool hasMultiple = false;
 
             for (int i = 0; i < goal.Length; i++) 

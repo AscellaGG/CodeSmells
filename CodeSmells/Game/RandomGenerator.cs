@@ -15,19 +15,24 @@ namespace CodeSmells.Game
             _random = new Random();
         }
 
-        public string GenerateGoal()
+        public string GenerateGoal(int range, bool uniqueNumbers)
         {
             string goal = "";
 
             for (int i = 0; i < 4; i++)
             {
-                int random = _random.Next(10);
+                int random = _random.Next(range);
                 string randomDigit = "" + random;
-                while (goal.Contains(randomDigit))
+
+                if (uniqueNumbers)
                 {
-                    random = _random.Next(10);
-                    randomDigit = "" + random;
+                    while (goal.Contains(randomDigit))
+                    {
+                        random = _random.Next(range);
+                        randomDigit = "" + random;
+                    }
                 }
+
                 goal = goal + randomDigit;
             }
 

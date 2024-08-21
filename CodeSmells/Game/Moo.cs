@@ -6,19 +6,23 @@ using System.Threading.Tasks;
 
 namespace CodeSmells.Game
 {
-    public class MooLogic
+    public class Moo : IGame
     {
         private bool isGameOver = false;
         private int numberOfGuesses = 0;
         private string goal = "";
+        private int goalLength = 4;
 
         public bool IsGameOver() { return isGameOver; }
 
         public int GetNumberOfGuesses() { return numberOfGuesses; }
 
-        public void MakeGoal(IRandomGenerator randomGenerator)
+        public void NewGame(IRandomGenerator randomGenerator)
         {
-            goal = randomGenerator.GenerateGoal();
+            isGameOver = false;
+            numberOfGuesses = 0;
+
+            goal = randomGenerator.GenerateGoal(10, true);
 
             // Only for debug/practice purposes
             Console.WriteLine("For practice, number is: " + goal + "\n");
@@ -30,9 +34,9 @@ namespace CodeSmells.Game
 
             guess += "    ";     // if player entered less than 4 chars
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < goalLength; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < goalLength; j++)
                 {
                     if (goal[i] == guess[j])
                     {
@@ -62,7 +66,6 @@ namespace CodeSmells.Game
             {
                 isGameOver = false;
             }
-
         }
     }
 }

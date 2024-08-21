@@ -9,13 +9,15 @@ namespace MooGame
 {
     class MainClass
     {
+        // TODO: different statistics?
 
         public static void Main(string[] args)
         {
             IUI ui = new ConsoleIO();
             IStatistics statisticsController = new StatisticsController();
+            IGame game = new Mastermind();
 
-            GameController controller = new GameController(ui, statisticsController);
+            GameController controller = new GameController(ui, statisticsController, game);
             controller.RunGameSession();
         }
     }

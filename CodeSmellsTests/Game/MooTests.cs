@@ -11,16 +11,16 @@ namespace CodeSmells.Game.Tests
     [TestClass()]
     public class MooTests
     {
-        MooLogic moo;
+        Moo moo;
 
         [TestInitialize()]
         public void TestInitialize()
         {
             MockRandomGenerator mockRandomGenerator = new MockRandomGenerator("1234");
 
-            moo = new MooLogic();   
+            moo = new Moo();   
 
-            moo.MakeGoal(mockRandomGenerator);
+            moo.NewGame(mockRandomGenerator);
         }
 
         [TestMethod()]

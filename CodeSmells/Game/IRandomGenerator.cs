@@ -8,6 +8,6 @@ namespace CodeSmells.Game
 {
     public interface IRandomGenerator
     {
-        string GenerateGoal();
+        string GenerateGoal(int range, bool uniqueNumbers);
     }
 }

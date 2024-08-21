@@ -11,16 +11,17 @@ namespace CodeSmells.Game
 {
     class GameController
     {
-        private MooLogic _moo;
+        private IGame _game;
         private IUI _ui;
         private IStatistics _statistics;
 
         private string playerName;
 
-        public GameController(IUI ui, IStatistics statistics)
+        public GameController(IUI ui, IStatistics statistics, IGame game)
         {
             _ui = ui;
             _statistics = statistics;
+            _game = game;
         }
 
         public void RunGameSession()
@@ -39,11 +40,9 @@ namespace CodeSmells.Game
 
         private void RunNewGame()
         {
-            _moo = new MooLogic();
-
             HandleGameStart();
 
-            while (!_moo.IsGameOver()) 
+            while (!_game.IsGameOver()) 
             {
                 HandlePlayerInput();
             }
@@ -53,7 +52,7 @@ namespace CodeSmells.Game
 
         private void HandleGameStart()
         {
-            _moo.MakeGoal(new RandomGenerator());
+            _game.NewGame(new RandomGenerator());
 
             _ui.DisplayText("New game:");
         }
@@ -62,18 +61,18 @@ namespace CodeSmells.Game
         {
             string guess = _ui.GetGuess();
 
-            string newResult = _moo.GetGuessResult(guess);
+            string newResult = _game.GetGuessResult(guess);
 
             _ui.DisplayText(newResult);
 
-            _moo.CheckAnswer(newResult);
+            _game.CheckAnswer(newResult);
         }
 
         private void HandleGameOver()
         {
-            _ui.DisplayText("Correct, it took " + _moo.GetNumberOfGuesses() + " guesses");
+            _ui.DisplayText("Correct, it took " + _game.GetNumberOfGuesses() + " guesses");
 
-            _statistics.AddPlayerToFile(playerName, _moo.GetNumberOfGuesses());
+            _statistics.AddPlayerToFile(playerName, _game.GetNumberOfGuesses());
 
             _ui.DisplayTopList(_statistics.GetTopList());
         }
