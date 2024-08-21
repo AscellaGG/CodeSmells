@@ -42,7 +42,7 @@ namespace CodeSmells.Game
         {
             HandleGameStart();
 
-            while (!_game.IsGameOver()) 
+            while (!_game.IsGameOver) 
             {
                 HandlePlayerInput();
             }
@@ -70,9 +70,9 @@ namespace CodeSmells.Game
 
         private void HandleGameOver()
         {
-            _ui.DisplayText("Correct, it took " + _game.GetNumberOfGuesses() + " guesses");
+            _ui.DisplayText("Correct, it took " + _game.NumberOfGuesses + " guesses");
 
-            _statistics.AddPlayerToFile(playerName, _game.GetNumberOfGuesses());
+            _statistics.AddPlayerToFile(playerName, _game.NumberOfGuesses);
 
             _ui.DisplayTopList(_statistics.GetTopList());
         }

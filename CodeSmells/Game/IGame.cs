@@ -8,9 +8,8 @@ namespace CodeSmells.Game
 {
     public interface IGame
     {
-        public bool IsGameOver();
-
-        public int GetNumberOfGuesses();
+        public bool IsGameOver {  get; }
+        public int NumberOfGuesses { get; }
 
         public void NewGame(IRandomGenerator randomGenerator);
         //public void MakeGoal(IRandomGenerator randomGenerator);

@@ -8,19 +8,15 @@ namespace CodeSmells.Game
 {
     public class Moo : IGame
     {
-        private bool isGameOver = false;
-        private int numberOfGuesses = 0;
+        public bool IsGameOver { get; private set; } = false;
+        public int NumberOfGuesses { get; private set; } = 0;
+
         private string goal = "";
-        private int goalLength = 4;
-
-        public bool IsGameOver() { return isGameOver; }
-
-        public int GetNumberOfGuesses() { return numberOfGuesses; }
 
         public void NewGame(IRandomGenerator randomGenerator)
         {
-            isGameOver = false;
-            numberOfGuesses = 0;
+            IsGameOver = false;
+            NumberOfGuesses = 0;
 
             goal = randomGenerator.GenerateGoal(10, true);
 
@@ -34,9 +30,9 @@ namespace CodeSmells.Game
 
             guess += "    ";     // if player entered less than 4 chars
 
-            for (int i = 0; i < goalLength; i++)
+            for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < goalLength; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     if (goal[i] == guess[j])
                     {
@@ -52,7 +48,7 @@ namespace CodeSmells.Game
                 }
             }
 
-            numberOfGuesses++;
+            NumberOfGuesses++;
 
             return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
         }
@@ -61,10 +57,10 @@ namespace CodeSmells.Game
         {
             if (guessResult == "BBBB,")
             {
-                isGameOver = true;
+                IsGameOver = true;
             } else
             {
-                isGameOver = false;
+                IsGameOver = false;
             }
         }
     }

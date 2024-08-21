@@ -8,18 +8,15 @@ namespace CodeSmells.Game
 {
     public class Mastermind : IGame
     {
-        private bool isGameOver = false;
-        private int numberOfGuesses = 0;
         private string goal = "";
 
-        public int GetNumberOfGuesses() { return numberOfGuesses; }
-
-        public bool IsGameOver() { return isGameOver; }
+        public bool IsGameOver { get; private set; } = false;
+        public int NumberOfGuesses { get; private set; } = 0;
 
         public void NewGame(IRandomGenerator randomGenerator)
         {
-            isGameOver = false;
-            numberOfGuesses = 0;
+            IsGameOver = false;
+            NumberOfGuesses = 0;
 
             goal = randomGenerator.GenerateGoal(6, false);
 
@@ -52,7 +49,7 @@ namespace CodeSmells.Game
                 }
             }
 
-            numberOfGuesses++;
+            NumberOfGuesses++;
 
             return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
         }        
@@ -60,11 +57,11 @@ namespace CodeSmells.Game
         {
             if (guessResult == "BBBB,")
             {
-                isGameOver = true;
+                IsGameOver = true;
             }
             else
             {
-                isGameOver = false;
+                IsGameOver = false;
             }
         }
     }
